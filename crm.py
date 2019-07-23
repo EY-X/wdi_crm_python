@@ -49,53 +49,69 @@ class CRM:
     last_name = input(('Enter Last Name: '))
     email = input(('Enter Email Address: '))
     note = input(('Enter a Note: '))
-    Contact.create(first_name, last_name, email, note)
+
+    # Contact.create(first_name, last_name, email, note)
+    Contact.create(
+      first_name=first_name,
+      last_name=last_name,
+      email=email,
+      note=note
+    )
 
 
   # As a user, if I select modify I am prompted to enter an id for the contact to be modified.
   def modify_existing_contact(self):
     id_x = int(input('Enter your ID\n'))
+    contact_get = Contact.get(id=id_x)
     contact_attribute = input(('Which attribute do you want to edit?: '))
-    new_value = input(('New value to be?: '))
-    for contact in Contact.contacts_list: 
+    new_value = input(('New value to be?: ')) 
       if id_x == contact.next_id:
         if contact_attribute == 'first_name': 
-          contact.update(contact_attribute, new_value)
-    print(self.display_all_contacts())
+          contact_get.first_name = new_value
+          contact_get.save()
+        elif contact_attribute == 'last_name': 
+          contact_get.last_name = new_value
+          contact_get.save()
+        elif contact_attribute == 'email': 
+          contact.email = new_value
+          contact_get.save()
+        elif contact_attribute == 'note': 
+          contact_get.note = new_value
+          contact_get.save()
   
   
   
   def delete_contact(self):
     id_x = int(input('Enter your ID'))
-    for contact in Contact.contacts_list: 
-      if id_x == contact.next_id:
-        contact.remove(id_x)
-
-
+    c = Contact.get(id=id_x)
+    c.delete_instance()
   
   def display_all_contacts(self):
-    print(Contact.all())
+    for contact in Contact.select():
+      print(contact.first_name, contact.last_name)
+  
+  def search_by_id(self):
+    get_id = input("What's your ID?")
+    contact = Contact.get(id=get_id)
+    print(contact)
 
-  def search_by_attribute(self):
-    Contact.find_by()
 
 
-
-# Contact('John', 'fruc', 'john@john.com', 'rock on')
+# Contact.create('John', 'fruc', 'john@john.com', 'rock on')
 # # print(Contact.contacts_list)
 
 # a_crm_app = CRM()
 # print(a_crm_app.modify_existing_contact() )
-# # a_crm_app.main_menu()
+# a_crm_app.main_menu()
 
 
 
-crm1 = CRM()
-print(crm1.main_menu())
+# crm1 = CRM()
+# print(crm1.main_menu())
 # crm1.display_all_contacts()
-Contact.create('John', 'fruc', 'john@john.com', 'rock on')
-crm1.display_all_contacts()
-crm1.delete_contact()
+# Contact.create('John', 'fruc', 'john@john.com', 'rock on')
+# crm1.display_all_contacts()
+# crm1.delete_contact()
 # crm1.display_all_contacts()
 # crm1.modify_existing_contact() 
 
