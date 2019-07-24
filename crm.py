@@ -38,7 +38,7 @@ class CRM:
     elif user_selected == 4:
       self.display_all_contacts()
     elif user_selected == 5:
-      self.search_by_attribute()
+      self.search_by_id()
     elif user_selected == 6:
       exit('Take Care!')
   
@@ -62,22 +62,26 @@ class CRM:
   # As a user, if I select modify I am prompted to enter an id for the contact to be modified.
   def modify_existing_contact(self):
     id_x = int(input('Enter your ID\n'))
-    contact_get = Contact.get(id=id_x)
-    contact_attribute = input(('Which attribute do you want to edit?: '))
-    new_value = input(('New value to be?: ')) 
-      if id_x == contact.next_id:
-        if contact_attribute == 'first_name': 
-          contact_get.first_name = new_value
-          contact_get.save()
-        elif contact_attribute == 'last_name': 
-          contact_get.last_name = new_value
-          contact_get.save()
-        elif contact_attribute == 'email': 
-          contact.email = new_value
-          contact_get.save()
-        elif contact_attribute == 'note': 
-          contact_get.note = new_value
-          contact_get.save()
+    contact_finder = Contact.get(id=id_x)
+
+
+    contact_attribute = input('Which attribute do you want to edit?: ')
+    new_value = input('New value to be?: ') 
+
+
+    if id_x == contact_finder.id:
+      if contact_attribute == 'first name': 
+        contact_finder.first_name = new_value
+        contact_finder.save()
+      elif contact_attribute == 'last name': 
+        contact_finder.last_name = new_value
+        contact_finder.save()
+      elif contact_attribute == 'email': 
+        contact_finder.email = new_value
+        contact_finder.save()
+      elif contact_attribute == 'note': 
+        contact_finder.note = new_value
+        contact_finder.save()
   
   
   
@@ -89,6 +93,8 @@ class CRM:
   def display_all_contacts(self):
     for contact in Contact.select():
       print(contact.first_name, contact.last_name)
+      
+
   
   def search_by_id(self):
     get_id = input("What's your ID?")
@@ -106,8 +112,8 @@ class CRM:
 
 
 
-# crm1 = CRM()
-# print(crm1.main_menu())
+crm1 = CRM()
+print(crm1.main_menu())
 # crm1.display_all_contacts()
 # Contact.create('John', 'fruc', 'john@john.com', 'rock on')
 # crm1.display_all_contacts()
